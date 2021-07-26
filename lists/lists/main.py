@@ -24,3 +24,5 @@ addElementToList(10.5)
 
 print(myUniqueList)
 print(myLeftovers)
+
+print("First element in my uniqe list is " +  str(myUniqueList[0]))
