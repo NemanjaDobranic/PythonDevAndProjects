@@ -8,7 +8,6 @@ def addElementToList(elementToAdd):
         else:
             redirectToLeftovers(elementToAdd)
             return False
-
 def redirectToLeftovers(duplicate):
     myLeftovers.append(duplicate)
 
