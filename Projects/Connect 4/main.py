@@ -42,7 +42,7 @@ def checkWin(row, column, coloredCircle):
             if listTable[column][row + i] == coloredCircle:
                 vertCounter += 1
         except IndexError:
-            continue
+            break
         
     if vertCounter == 4:
         declareWinner(coloredCircle)
@@ -50,45 +50,77 @@ def checkWin(row, column, coloredCircle):
 
     #left horizontal check
     leftCounter = 0
-    for i in range (4):
+    for i in range(1,4):
         try:
-            if listTable[column - leftCounter][row] == coloredCircle:
+            if(listTable[column - i][row] == coloredCircle):
                 leftCounter += 1
+            else:
+                break
         except IndexError:
-            continue
+            continue    
         
-    if leftCounter == 4:
+    if leftCounter == 3:
         declareWinner(coloredCircle)
         return True
 
     #right horizontal check
     rightCounter = 0
-    for i in range (4):
+    for i in range(1,4):
         try:
-            if listTable[column + rightCounter][row] == coloredCircle:
+            if(listTable[column + i][row] == coloredCircle):
                 rightCounter += 1
+            else:
+                break
         except IndexError:
-            continue
+            break 
         
-    if rightCounter == 4:
+    if rightCounter == 3:
+        declareWinner(coloredCircle)
+        return True
+
+    #case when final ball (2. or 3.) will make combo of 4 balls
+    if leftCounter + rightCounter == 3:
         declareWinner(coloredCircle)
         return True
     
-    #left down diagonal check
-    leftCounter = 0
+    #diagonal check
+    DiagCounter1 = 0
+    DiagCounter2 = 0
+    DiagCounter3 = 0
+    DiagCounter4 = 0
+
     for i in range (4):
-        try:
-            if listTable[column - leftCounter][row] == coloredCircle:
-                leftCounter += 1
-        except IndexError:
-            continue
-        
-    if leftCounter == 4:
+            try:
+                if listTable[column - i][row - i] == coloredCircle:
+                    DiagCounter1 += 1
+            except IndexError:
+                continue
+
+    for i in range (4):
+            try:
+                if listTable[column - i][row + i] == coloredCircle:
+                    DiagCounter2 += 1
+            except IndexError:
+                continue
+
+    for i in range (4):
+            try:
+                if listTable[column + i][row - i] == coloredCircle:
+                    DiagCounter3 += 1
+            except IndexError:
+                continue
+
+    for i in range (4):
+            try:
+                if listTable[column + i][row + i] == coloredCircle:
+                    DiagCounter4 += 1
+            except IndexError:
+                continue
+
+    if DiagCounter1 == 4 or DiagCounter2 == 4 or DiagCounter3 == 4 or DiagCounter4 == 4:
         declareWinner(coloredCircle)
         return True
     
-
-
 
 def putCircle(column, coloredCircle):
     columnList = listTable[column]
