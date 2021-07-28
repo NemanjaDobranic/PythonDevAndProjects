@@ -54,7 +54,6 @@ def appendFile():
                 else:
                     print('Invalid input!')
 
-
 def write():
     file = open('./File IO/' + fileName,'w')
     text = input('Enter text you want to write: ')
@@ -63,7 +62,7 @@ def write():
     file.close()
 
 def replaceSingleLine():
-    file = open('./File IO/' + fileName,'r+')   #read a file, and then write to it (overwriting any existing data), without closing and reopening
+    file = open('./File IO/' + fileName,'r')   #read a file, and then write to it (overwriting any existing data), without closing and reopening
     linesList = file.readlines()
     i = 1
     for lines in linesList:
@@ -82,6 +81,8 @@ def replaceSingleLine():
     text += '\n'
     linesList[lineNum - 1] = text
     
+    file.close()
+    file = open('./File IO/' + fileName,'w')
     file.writelines(linesList)
     file.close()
 

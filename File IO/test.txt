@@ -1,7 +1,4 @@
 Python is a general-purpose programming language, 
 so it can be used for many things. 
 Python is used for web development, AI, machine learning, 
-operating systems, mobile application development, and video games.Python is a general-purpose programming language, 
-SO HOW ARE YOU
-Python is used for web development, AI, machine learning, 
 operating systems, mobile application development, and video games.
