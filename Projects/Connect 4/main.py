@@ -28,19 +28,39 @@ def drawTable():
         print()
     print()
 
+def checkWin(row, column, coloredCircle):
+    #vertical check
+    vertCounter = 0
+    for i in range (4):
+        try:
+            if listTable[column][row + i] == coloredCircle:
+                vertCounter += 1
+        except IndexError:
+            continue
+        
+    if vertCounter == 4:
+        if coloredCircle == redCircle:
+            cprint("Player 1 won", 'red', attrs=['bold','blink'], file=sys.stderr)
+            return True
+        else:
+            cprint("Player 2 won", 'red', attrs=['bold','blink'], file=sys.stderr)
+            return True
+
 def putCircle(column, coloredCircle):
     columnList = listTable[column]
     length = len(columnList)
     for i in range(length - 1, -1, -1):
         if(columnList[i] == 'O'):
             columnList[i] = coloredCircle
+            if checkWin(i, column, coloredCircle):
+                drawTable()
+                exit()
             break
 
 player = 1
 while True:
     drawTable()
     column = int(input('Enter column: '))
-
     if column > 0 and column < 8:
         column -= 1
         if listTable[column][0] != redCircle and listTable[column][0] != greenCircle:
