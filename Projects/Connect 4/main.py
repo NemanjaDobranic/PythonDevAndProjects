@@ -147,11 +147,15 @@ def putCircle(column, coloredCircle):
             break
 
 player = 1
+counter = 0
 while True:
     drawTable()
     column = int(input('Enter column: '))
     if column > 0 and column < 8:
         column -= 1
+        if counter == 42:
+            cprint("Tie! ", 'red', attrs=['bold','blink'], file=sys.stderr)
+            exit() 
         if listTable[column][0] != redCircle and listTable[column][0] != greenCircle:
             if(player == 1):
                 putCircle(column, redCircle)     
@@ -159,6 +163,7 @@ while True:
             else:
                 putCircle(column, greenCircle) 
                 player = 1
+            counter += 1
         else:
             cprint(str(column + 1) + ". column is full!", 'red', attrs=['bold'], file=sys.stderr)
     else:
