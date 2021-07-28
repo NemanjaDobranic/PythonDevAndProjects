@@ -28,8 +28,14 @@ def drawTable():
         print()
     print()
 
+def declareWinner(coloredCircle):
+    if coloredCircle == redCircle:
+        cprint("Player 1 won", 'red', attrs=['bold','blink'], file=sys.stderr)
+    else:
+        cprint("Player 2 won", 'red', attrs=['bold','blink'], file=sys.stderr)
+
 def checkWin(row, column, coloredCircle):
-    #vertical check
+    #down vertical check
     vertCounter = 0
     for i in range (4):
         try:
@@ -39,12 +45,50 @@ def checkWin(row, column, coloredCircle):
             continue
         
     if vertCounter == 4:
-        if coloredCircle == redCircle:
-            cprint("Player 1 won", 'red', attrs=['bold','blink'], file=sys.stderr)
-            return True
-        else:
-            cprint("Player 2 won", 'red', attrs=['bold','blink'], file=sys.stderr)
-            return True
+        declareWinner(coloredCircle)
+        return True
+
+    #left horizontal check
+    leftCounter = 0
+    for i in range (4):
+        try:
+            if listTable[column - leftCounter][row] == coloredCircle:
+                leftCounter += 1
+        except IndexError:
+            continue
+        
+    if leftCounter == 4:
+        declareWinner(coloredCircle)
+        return True
+
+    #right horizontal check
+    rightCounter = 0
+    for i in range (4):
+        try:
+            if listTable[column + rightCounter][row] == coloredCircle:
+                rightCounter += 1
+        except IndexError:
+            continue
+        
+    if rightCounter == 4:
+        declareWinner(coloredCircle)
+        return True
+    
+    #left down diagonal check
+    leftCounter = 0
+    for i in range (4):
+        try:
+            if listTable[column - leftCounter][row] == coloredCircle:
+                leftCounter += 1
+        except IndexError:
+            continue
+        
+    if leftCounter == 4:
+        declareWinner(coloredCircle)
+        return True
+    
+
+
 
 def putCircle(column, coloredCircle):
     columnList = listTable[column]
