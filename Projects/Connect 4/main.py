@@ -89,35 +89,48 @@ def checkWin(row, column, coloredCircle):
     DiagCounter3 = 0
     DiagCounter4 = 0
 
-    for i in range (4):
+    for i in range (1,4):
             try:
                 if listTable[column - i][row - i] == coloredCircle:
                     DiagCounter1 += 1
+                else:
+                    break
             except IndexError:
-                continue
+                break
 
-    for i in range (4):
+    for i in range (1,4):
             try:
                 if listTable[column - i][row + i] == coloredCircle:
                     DiagCounter2 += 1
+                else:
+                    break
             except IndexError:
-                continue
+                break
 
-    for i in range (4):
+    for i in range (1,4):
             try:
                 if listTable[column + i][row - i] == coloredCircle:
                     DiagCounter3 += 1
+                else:
+                    break
             except IndexError:
-                continue
+                break
 
-    for i in range (4):
+    for i in range (1,4):
             try:
                 if listTable[column + i][row + i] == coloredCircle:
                     DiagCounter4 += 1
+                else:
+                    break
             except IndexError:
-                continue
+                break
 
-    if DiagCounter1 == 4 or DiagCounter2 == 4 or DiagCounter3 == 4 or DiagCounter4 == 4:
+    if DiagCounter1 == 3 or DiagCounter2 == 3 or DiagCounter3 == 3 or DiagCounter4 == 3:
+        declareWinner(coloredCircle)
+        return True
+    
+    #case when final ball (2. or 3.) will make combo of 4 balls
+    if DiagCounter1 + DiagCounter4 == 3 or DiagCounter2 + DiagCounter3 == 3:
         declareWinner(coloredCircle)
         return True
     
