@@ -1,3 +1,10 @@
+"""
+Options:
+A) Read the file
+B) Delete the file and start over
+C) Append the file
+D) Replace a single line
+"""
 import os
 
 #fullPath = os.getcwd() + r'\File IO'
