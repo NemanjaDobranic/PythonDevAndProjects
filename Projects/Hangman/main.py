@@ -1,25 +1,31 @@
 from os import system, name
 
-hangman = ['|','O','|','|','/','\\']
-gallow = [[''],['+'],['='],['+'],[''],[''],['']]
-def drawGallows():
+gallows = []
+
+def drawScene():
+    for i in range(len(gallows)):
+        for j in range(len(gallows[i])):
+            print(gallows[i][j],end='')
+        print()
+
+def createGallows():
     for row in range(7):
+        gallows.append([])
         for column in range(12):
             if row == 0:
                 if column == 3 or column == 6:
-                    print('+',end='')
+                    gallows[row].append('+')
                 elif column == 4 or column == 5:
-                    print('-',end='')
+                    gallows[row].append('-')
                 else:
-                    print(' ',end='')
+                    gallows[row].append(' ')
             elif row == 6:
-                print('=',end='')
+                gallows[row].append('=')
             else:
                 if column == 6:
-                    print('|',end='')
+                    gallows[row].append('|')
                 else:
-                    print(' ',end='')
-        print()
+                    gallows[row].append(' ')
 
 def clear():
     # Windows
@@ -31,8 +37,8 @@ def clear():
         system('clear')
         
 def player2(word):
-    drawGallows()
-    
+    createGallows()
+    drawScene()
 
 def player1():
     word = input('Enter a word: ')
