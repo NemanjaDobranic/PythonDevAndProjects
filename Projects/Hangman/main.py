@@ -1,13 +1,17 @@
-from os import system, name
+from os import system, name, path
 from copy import deepcopy
 from random import randint
+import sys
 
 hangman = ['|','O','/','|','\\','|','/',' ','\\']
 gallows = []
 answersIsFound = False
 
 def load_words():
-    with open('Projects\Hangman\words_alpha.txt') as word_file:
+    pathToMain = sys.argv[0]
+    pathToDirHangman = path.dirname(pathToMain)
+    fullPath = pathToDirHangman + '/words_alpha.txt'
+    with open(fullPath) as word_file:
         valid_words = list(word_file.read().split())
     return valid_words
 
@@ -93,6 +97,14 @@ def refreshGame(letterList, recognizedLetters):
     drawScene()
     showDashedLinesAndLetters(letterList, recognizedLetters)
 
+def printActualWord(letterList):
+    print('Actual word(s): ',end='')
+    for word in letterList:
+        for letter in word:
+            print(letter,end='')
+        print(' ',end='')
+    print()
+    
 def player2(letterList):
     wrongAnswers = 0
     recognizedLetters = deepcopy(letterList)
@@ -128,9 +140,10 @@ def player2(letterList):
         print('You WON the game :)')
     else:
         print('You LOST the game :(')
+        printActualWord(letterList)
 
 def player1():
-    word = input('Enter a word: ')
+    word = input('Enter a word(s): ')
     while len(word) == 0:
         print('Word can not be empty')
         word = input('Please try again: ')
