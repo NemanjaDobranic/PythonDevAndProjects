@@ -1,6 +1,41 @@
 from os import system, name
 
+hangman = ['|','O','/','|','\\','|','/',' ','\\']
 gallows = []
+answersIsFound = False
+
+def showDashedLinesAndLetters(List1, List2):
+    print()
+    for wordNum in range(len(List1)):
+        for letterNum in range(len(List1[wordNum])):
+            if List1[wordNum][letterNum] == List2[wordNum][letterNum]:
+                print('_',end='')
+            else:
+                print(List1[wordNum][letterNum],end='')
+            print(' ',end='')
+        print('  ',end='')
+    print() 
+
+#number argument == how many parts will be drawn
+def addHangmanPartsToGallow(number):
+    counter = 0
+    number -= 1
+    for row in range(len(gallows)):
+        for column in range(len(gallows[row])):
+            if row > 0 and row < 7:
+                if counter > len(hangman) - 1 or counter > number:
+                    break
+                
+                if row == 3 or row == 5:
+                    if column >=2 and column <= 4:
+                        gallows[row][column] = hangman[counter]
+                        if hangman[counter] == ' ':
+                            number += 1
+                        counter += 1
+                else:
+                    if column == 3:
+                        gallows[row][column] = hangman[counter]
+                        counter += 1
 
 def drawScene():
     for i in range(len(gallows)):
@@ -35,10 +70,59 @@ def clear():
     # for Mac and Linux
     else:
         system('clear')
-        
-def player2(word):
-    createGallows()
+
+def checkIfPlayerWin(recognizedLetters):
+    allLettersFound = True
+
+    for word in recognizedLetters:
+        for letter in word:
+            if letter != '_':
+                allLettersFound = False
+
+    return allLettersFound
+
+def refreshGame(letterList, recognizedLetters):
+    clear()
     drawScene()
+    showDashedLinesAndLetters(letterList, recognizedLetters)
+
+def player2(letterList):
+    wrongAnswers = 0
+    recognizedLetters = letterList
+    
+    createGallows()
+    refreshGame(letterList,recognizedLetters)
+
+    answersIsFound = False
+    while wrongAnswers < len(hangman) and answersIsFound == False:
+        print('Remaining attempts:',len(hangman) - wrongAnswers - 1)
+        letter = input('Enter a letter: ')
+        
+        while(len(letter) > 1):
+            print('Enter letter not word!')
+            letter = input('Enter a letter: ')
+
+        Found = False
+        for wordNum in range(len(recognizedLetters)):
+            for letterNum in range(len(recognizedLetters[wordNum])):
+                if recognizedLetters[wordNum][letterNum] == letter:
+                    Found = True
+                    recognizedLetters[wordNum][letterNum] = '_'
+
+        if Found == False:
+            wrongAnswers += 1
+            addHangmanPartsToGallow(wrongAnswers)
+            refreshGame(letterList,recognizedLetters)
+        else:
+            answersIsFound = checkIfPlayerWin(recognizedLetters)
+            if answersIsFound == False:
+                refreshGame(letterList,recognizedLetters)
+
+
+    if answersIsFound:
+        print('You won the game :)')
+    else:
+        print('You lost the game :(')
 
 def player1():
     word = input('Enter a word: ')
@@ -50,7 +134,13 @@ def player1():
 
 def main():
     word = player1()
-    player2(word)
 
+    #Convert sentence to List of letters, so list(words) of lists(letters)
+    wordList = word.split()
+    letterList = []
+    for word in wordList:
+        letterList.append(list(word))
+
+    player2(letterList)
 
 main()
