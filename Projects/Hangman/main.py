@@ -1,6 +1,6 @@
 from os import system, name
 from copy import deepcopy
-
+import read_english_dictionary as r
 hangman = ['|','O','/','|','\\','|','/',' ','\\']
 gallows = []
 answersIsFound = False
