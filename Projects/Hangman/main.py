@@ -1,5 +1,5 @@
 from os import system, name
-
+from copy import deepcopy
 hangman = ['|','O','/','|','\\','|','/',' ','\\']
 gallows = []
 answersIsFound = False
@@ -88,7 +88,7 @@ def refreshGame(letterList, recognizedLetters):
 
 def player2(letterList):
     wrongAnswers = 0
-    recognizedLetters = letterList
+    recognizedLetters = deepcopy(letterList)
     
     createGallows()
     refreshGame(letterList,recognizedLetters)
@@ -99,6 +99,7 @@ def player2(letterList):
         letter = input('Enter a letter: ')
         
         while(len(letter) > 1):
+            refreshGame(letterList,recognizedLetters)
             print('Enter letter not word!')
             letter = input('Enter a letter: ')
 
@@ -115,14 +116,14 @@ def player2(letterList):
             refreshGame(letterList,recognizedLetters)
         else:
             answersIsFound = checkIfPlayerWin(recognizedLetters)
-            if answersIsFound == False:
-                refreshGame(letterList,recognizedLetters)
+            refreshGame(letterList,recognizedLetters)
 
 
     if answersIsFound:
-        print('You won the game :)')
+        print('You WON the game :)')
+        
     else:
-        print('You lost the game :(')
+        print('You LOST the game :(')
 
 def player1():
     word = input('Enter a word: ')
