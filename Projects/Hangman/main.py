@@ -1,9 +1,15 @@
 from os import system, name
 from copy import deepcopy
-import read_english_dictionary as r
+from random import randint
+
 hangman = ['|','O','/','|','\\','|','/',' ','\\']
 gallows = []
 answersIsFound = False
+
+def load_words():
+    with open('Projects\Hangman\words_alpha.txt') as word_file:
+        valid_words = list(word_file.read().split())
+    return valid_words
 
 def showDashedLinesAndLetters(List1, List2):
     print()
@@ -131,8 +137,32 @@ def player1():
     clear() 
     return word.upper()
 
+def choosePlayMode():
+    print('Choose play mode:')
+    print('Player 1 vs Player 2 (press one)')
+    print('Player vs Computer (press two)')
+    playMode = int(input('> '))
+    return playMode
+
+def computer():
+    words = load_words()
+    randomPos = randint(0,len(words))
+    randomWord = words[randomPos]
+    randomWord = str(randomWord)
+
+    return randomWord.upper()
+
 def main():
-    word = player1()
+    playMode = choosePlayMode()
+    while(playMode != 1 and playMode != 2):
+        print('Incorrect input')
+        playMode = choosePlayMode()
+
+    if playMode == 1:
+        word = player1()
+    else:
+        word = computer()
+
     #Convert sentence to List of letters, so list(words) of lists(letters)
     wordList = word.split()
     letterList = []
