@@ -94,9 +94,9 @@ def player2(letterList):
     refreshGame(letterList,recognizedLetters)
 
     answersIsFound = False
-    while wrongAnswers < len(hangman) and answersIsFound == False:
+    while wrongAnswers < (len(hangman) - 1) and answersIsFound == False:
         print('Remaining attempts:',len(hangman) - wrongAnswers - 1)
-        letter = input('Enter a letter: ')
+        letter = input('Enter a letter: ').upper()
         
         while(len(letter) > 1):
             refreshGame(letterList,recognizedLetters)
@@ -113,15 +113,12 @@ def player2(letterList):
         if Found == False:
             wrongAnswers += 1
             addHangmanPartsToGallow(wrongAnswers)
-            refreshGame(letterList,recognizedLetters)
         else:
             answersIsFound = checkIfPlayerWin(recognizedLetters)
-            refreshGame(letterList,recognizedLetters)
-
+        refreshGame(letterList,recognizedLetters)
 
     if answersIsFound:
         print('You WON the game :)')
-        
     else:
         print('You LOST the game :(')
 
@@ -131,17 +128,15 @@ def player1():
         print('Word can not be empty')
         word = input('Please try again: ')
     clear() 
-    return word
+    return word.upper()
 
 def main():
     word = player1()
-
     #Convert sentence to List of letters, so list(words) of lists(letters)
     wordList = word.split()
     letterList = []
     for word in wordList:
         letterList.append(list(word))
-
     player2(letterList)
 
 main()
