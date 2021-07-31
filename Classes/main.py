@@ -1,4 +1,6 @@
 import random
+import warnings
+warnings.filterwarnings("ignore")
 
 class Vehicle:
     def __init__(self, Make, Model, Year, Weight, NeedsMaintenance = False, TripsSinceMaintenance = 0):
