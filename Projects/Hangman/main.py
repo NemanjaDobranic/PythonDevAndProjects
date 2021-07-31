@@ -1,5 +1,6 @@
 from os import system, name
 from copy import deepcopy
+
 hangman = ['|','O','/','|','\\','|','/',' ','\\']
 gallows = []
 answersIsFound = False
