@@ -1,0 +1,18 @@
+The object of the game is to collect the most 4 of a kinds. 
+Setup: Shuffle a standard deck of playing cards and deal 5 cards to each player.
+Players look at their cards but do not show them to others. 
+Pick a player to go first, then play proceeds clockwise.
+
+On your turn you ask 1 other player for any card rank. For example: “Bob, do you have any three’s?” 
+The asked player must give you all the cards matching the rank from their hand, then you get to take another turn.
+If the asked player doesn’t have any of the asked cards in their hand they say: “Go Fish.” 
+You then must draw 1 card from the top of the deck.
+If you draw the card you had just asked for, show it and take another turn, otherwise end your turn.
+
+Whenever a player gets all four of cards of the same rank, a “4 of a kind”, 
+they immediately remove those cards from their hand and place them grouped together face up in front of themselves.
+Whenever a player runs out of cards in their hand they immediately draw 5 new cards from the deck. 
+When the deck runs out of cards, play continues until every card in every player’s hand is gone.
+
+The game is now over. Each player receives 1 point for each 4 of a kind match they have in front of them. 
+The player with the most points wins.
