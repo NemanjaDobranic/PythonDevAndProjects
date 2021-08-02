@@ -64,21 +64,19 @@ class Player():
                     break
             if counter > 0: 
                 print()     
-                print(self.name,'got',counter + 1,'cards out fish tank')
+                print(self.name,'got',counter,'cards out fish tank')
                 print()
                 sleep(2)
                 clear()
             else:
                 print('Fish tank is empty, can not get more cards')
 
-
-
     def messagePlayer(self, message, card, players, fishTank):
         doICheat = True
         numOfCards = 0
         showCards(self,players)
         while doICheat == True:
-            answer = input(message)
+            answer = input(message).lower()
             if answer == 'y':
                 while card in self.cards:
                     self.cards.remove(card)
@@ -89,7 +87,8 @@ class Player():
             else:
                 doICheat = self.amIlying(card)
                 if doICheat:
-                    print('\nYou have',cardsDict[card],"('s)")
+                    print()
+                    print(self.name,'has',cardsDict[card],"('s)")
                     print('Play fair!\n')
                     sleep(2)
                 else:
@@ -102,7 +101,7 @@ class Player():
             if temp_card == card:
                 counter += 1
         
-        if counter >= 4:
+        if counter == 4:
             self.score.add(card)
             for _ in range(counter):
                 for temp_card in self.cards:
@@ -115,10 +114,10 @@ class Player():
         drawnCard = fishTank.getCard()
         self.cards.append(drawnCard)
 
-        if card == drawnCard:
-            self.fourOfKind(card, fishTank)
-
     def askPlayerForCard(self, player, card, players, fishTank):
+        #checking if player got 4 same cards by drawing from deck
+                #or by asking another player for a card
+
         if self.name != player.name:
             if card in self.cards:
                 message = player.name + ", do you have " + cardsDict[card] + "'s?"
@@ -128,38 +127,31 @@ class Player():
                 if numOfCards > 0:
                     for _ in range(numOfCards):
                         self.cards.append(card) 
-                    print("You got",numOfCards,cardsDict[card],"'s")
+                    print(player.name,"gave to",self.name,numOfCards,cardsDict[card],"'s\n")
+                    self.fourOfKind(card, fishTank)
                     return False
                 else:
-                    print('Go Fish')
+                    print(player.name,"says to",self.name,": 'Go Fish'!")
                     while True:
-                        txt = input('Press "d" to draw one card from the top of the deck: ').lower()
+                        string = self.name + ' please press "d" to draw one card from the top of the deck: '
+                        txt = input(string).lower()
                         if(txt == "d"):
+                            self.drawCard(card,fishTank)
+                            self.fourOfKind(card, fishTank)
                             return True #end turn
                         else:
                             print('Wrong input! Please try again.')
-                #checking if player got 4 same cards by drawing from deck
-                #or by asking another player for a card
-                self.fourOfKind(card, fishTank)
+                            sleep(2)
+                            return False
             else:
                 print('\nYou can not ask for a card you do not own!\n')
+                sleep(2)
+                return False
         else:
             print('\nYou can not ask yourself for card ;D!\n')
+            sleep(2)
+            return False
 
-""""
-player1 = Player('Nick',['2','2','5'])
-player2 = Player('John',['3','3','5'])
-fishTank1 = FishTank()
-print(fishTank1)
-player1.askPlayerForCard(player2,player1.cards[2],fishTank1)
-print(player1.cards)
-print(player2.cards)
-
-player1 = Player('Nick',['2','2','6','2','2'])
-player1.fourOfKind('2')
-print(player1.cards)
-print(player1.score)
-"""
 
 def whoPlayes(players):
     while True:
@@ -223,15 +215,18 @@ def play(playerNum,players,fishTank):
         currentPlayer.fourOfKind(card, fishTank)
     
     finishMyTurn = False
-    while finishMyTurn == False:
+    #while loop finishes when there is no cards in players hands or when turn for player is over (negative logic)
+    # condition in while loop is given in positive logic 
+    while finishMyTurn == False and playersHaveCards(players):
         showCards(currentPlayer,players)
         print(currentPlayer.name,", it's your turn!",sep='')
-            
+                
         num = findPlayer(players)
         card = findCard()
 
         #askPlayerForCard() func finishes when to current player is said Go Fish
         finishMyTurn = currentPlayer.askPlayerForCard(players[num],card,players,fishTank)
+            
 
 def playersHaveCards(players):
     for player in players:
@@ -246,15 +241,26 @@ def gameOver(players):
     for player in players:
         scoreDict[player.name] = len(player.score)
     
+    #using dict, because there can be tie
+    counter = 0
+    winner =''
     max = 0
-    winner = ''
+    first = 0
     for name in scoreDict:
-        if scoreDict[name] > 0:
-            max = scoreDict[name]
+        if first == 0:
             winner = name
-    
-    print('Winner is',winner,'who scored',max,'points')
+            max = scoreDict[name]
+            first += 1
+        if scoreDict[name] == max:
+            counter += 1
+        elif int(scoreDict[name]) > max:
+            winner = name
+            max = scoreDict[name]
 
+    if counter == 1:
+        print('Winner is',winner,'who scored',max,'points!')
+    else:
+        print('Tie!')
 
 def main():
     fishTank = FishTank()
@@ -269,8 +275,7 @@ def main():
     clear()      
 
     players = []
-    """
-    Real func
+    
     for i in range(num_of_players):
         name = input("Enter player's "+ str(i+1) + " name: ")
         cards = []
@@ -280,23 +285,25 @@ def main():
         sleep(1)
         print('Player', name ," has its own 5 cards")
         players.append(Player(name,cards))
-    """
-    #cheat
     
-    players.append(Player('John',[]))
-    players.append(Player('Nick',[]))
+    #CHEAT - Test comment above for loop to play and test game fastly
+    """
+    fishTank.deck=['2','2','4','3','3']
+    players.append(Player('John',['2','2','3','3']))
+    players.append(Player('Nick',['4','4','4']))
+    """
 
     firstPlayerNum = whoPlayes(players)
     while playersHaveCards(players):
         clear()
         play(firstPlayerNum,players,fishTank)
         firstPlayerNum += 1
-        firstPlayerNum = firstPlayerNum % 2
+        firstPlayerNum = firstPlayerNum % num_of_players
 
-    players[0].score = {'2','3'}
     gameOver(players)
     """
     add help function :)
     """
+
 main()
     
