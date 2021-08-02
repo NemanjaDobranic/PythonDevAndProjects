@@ -275,7 +275,6 @@ def main():
     clear()      
 
     players = []
-
     for i in range(num_of_players):
         name = input("Enter player's "+ str(i+1) + " name: ")
         cards = []
@@ -286,7 +285,7 @@ def main():
         print('Player', name ," has its own 5 cards")
         players.append(Player(name,cards))
     
-    #CHEAT - Test commented down below to play and test game fastly
+    #CHEAT - Test commented code down below to play and test game fastly
     """
     fishTank.deck=['2','2','4','3','3']
     players.append(Player('John',['2','2','3','3']))
