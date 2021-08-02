@@ -129,17 +129,18 @@ class Player():
                     for _ in range(numOfCards):
                         self.cards.append(card) 
                     print("You got",numOfCards,cardsDict[card],"'s")
-                    self.fourOfKind(card, fishTank)
                     return False
                 else:
                     print('Go Fish')
                     while True:
                         txt = input('Press "d" to draw one card from the top of the deck: ').lower()
                         if(txt == "d"):
-                            self.drawCard(card,fishTank)
                             return True #end turn
                         else:
                             print('Wrong input! Please try again.')
+                #checking if player got 4 same cards by drawing from deck
+                #or by asking another player for a card
+                self.fourOfKind(card, fishTank)
             else:
                 print('\nYou can not ask for a card you do not own!\n')
         else:
@@ -231,7 +232,6 @@ def play(playerNum,players,fishTank):
 
         #askPlayerForCard() func finishes when to current player is said Go Fish
         finishMyTurn = currentPlayer.askPlayerForCard(players[num],card,players,fishTank)
-    
 
 def playersHaveCards(players):
     for player in players:
