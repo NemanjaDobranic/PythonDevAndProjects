@@ -1,7 +1,8 @@
 from random import shuffle
-from os import system, name
+from os import system, name, path
 from time import sleep
-from typing import Counter
+from typing import Counter, Text
+import sys
 
 def clear():
     # Windows
@@ -77,6 +78,10 @@ class Player():
         showCards(self,players)
         while doICheat == True:
             answer = input(message).lower()
+            while answer.lower() == '--help':
+                help(answer)
+                answer = input(message).lower()
+
             if answer == 'y':
                 while card in self.cards:
                     self.cards.remove(card)
@@ -135,6 +140,11 @@ class Player():
                     while True:
                         string = self.name + ' please press "d" to draw one card from the top of the deck: '
                         txt = input(string).lower()
+                        while txt.lower() == '--help':
+                            help(txt)
+                            string = self.name + ' please press "d" to draw one card from the top of the deck: '
+                            txt = input(string).lower()
+                        
                         if(txt == "d"):
                             self.drawCard(card,fishTank)
                             self.fourOfKind(card, fishTank)
@@ -155,8 +165,13 @@ class Player():
 
 def whoPlayes(players):
     while True:
+
         print('Who will play first?')
         whoPlayes = input('Enter your name: ').upper()
+        while whoPlayes.lower() == '--help':
+            help(whoPlayes)
+            print('Who will play first?')
+            whoPlayes = input('Enter your name: ').upper()
 
         i = 0
         for player in players:
@@ -189,6 +204,9 @@ def showCards(currentPlayer, players):
 def findPlayer(players):
     while True:
         name = input('Enter player name from whom you want the card: ').upper()
+        while name.lower() == '--help':
+            help(name)
+            name = input('Enter player name from whom you want the card: ').upper()
 
         i = 0
         for player in players:
@@ -201,6 +219,9 @@ def findPlayer(players):
 def findCard():
     while True:
         cardName = input('Enter card name you want: ').upper()
+        while cardName.lower() == '--help':
+            help(cardName)
+            cardName = input('Enter card name you want: ').upper()
 
         for card in cardsDict:
             if cardsDict[card].upper() == cardName:
@@ -261,13 +282,30 @@ def gameOver(players):
         print('Winner is',winner,'who scored',max,'points!')
     else:
         print('Tie!')
+def help(input1):
+    input1 = str(input1)
+    while input1.lower() == '--help' or input1 != '--resume'.lower():
+        pathToMain = sys.argv[0]
+        pathToDirHangman = path.dirname(pathToMain)
+        fullPath = pathToDirHangman + '/GoFish.txt'
+        file = open(fullPath,"r")
+        text = file.read()    
+        print(text)
+        file.close()
+        input1 = input("Enter --resume to return: ").lower()
+
 
 def main():
     fishTank = FishTank()
     fishTank.shuffleCards()
 
     while True:
-        num_of_players = int(input('Enter num of players: '))
+        num_of_players = input('Enter num of players: ')
+        while num_of_players.lower() == '--help':
+            help(num_of_players)
+            num_of_players = input('Enter num of players: ')
+        num_of_players = int(num_of_players)
+
         if num_of_players < 2 or num_of_players > 4:
             print('Only 2 or 3 or 4 players can participate!')
         else:
@@ -276,7 +314,12 @@ def main():
 
     players = []
     for i in range(num_of_players):
+
         name = input("Enter player's "+ str(i+1) + " name: ")
+        while name.lower() == '--help':
+            help(name)
+            name = input("Enter player's "+ str(i+1) + " name: ")
+        
         cards = []
         print('Giving 5 cards to player', name ,"...")
         for _ in range(5):
@@ -300,9 +343,6 @@ def main():
         firstPlayerNum = firstPlayerNum % num_of_players
 
     gameOver(players)
-    """
-    add help function :)
-    """
 
 main()
     
